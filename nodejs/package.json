@@ -1,0 +1,14 @@
+{
+  "name": "pinger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "taskHandler.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.814.0",
+    "got": "^11.8.1",
+    "node-ssllabs": "^2.1.0",
+    "uuid": "^3.3.2"
+  }
+}

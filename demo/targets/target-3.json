@@ -1,0 +1,7 @@
+{
+  "active": false,
+  "config": "{\"host\": \"dr.dk\"}",
+  "delay": 900,
+  "id": "target-3",
+  "targetType": "certCheck"
+}

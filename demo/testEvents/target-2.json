@@ -1,0 +1,32 @@
+{
+  "Records": [
+    {
+      "messageId": "998842cd-e20c-4829-8e71-f897951df705",
+      "receiptHandle": "AQEBfxg3+rKGwY2+KNUrA5Y8T8Ya1dOngCl18S3TCCy6EQJpG1GtKB+dKMr45UKSXzx+ZW5GVRvSDxZ1I0bv6PGPCRWWbzqDV56pLbdZ59moIY8yjiZ6sq6OASHfEPOFsJXlTHoxsM8GFjEuSxLR8XSYKxMfVRRdqhmVo+4dg6UEM0aCW7petBMiYolOtCOe9vC0kNgOPz2ApiLHtsyhj7Jl7WI/PRIltalEhT831wMDKo8qLzCn8P+I5mRNWc0M1AzRvLLq+rKcN2/hnz2lH7UB1l0PcxHfjaURec8YCzflGEN69cfNgRRGSkxVuBe4MRmabvqryoXzGt3JxOmQs4oE1FqZkZJhdpTTYwVNifVqntALgcKFnxhQhgdAnL1schlpioafhXbzhIryJ8oT//zugw==",
+      "body": "{}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1609085184112",
+        "SenderId": "AROA3GVS5Z3ZVGJWGJ2Z2:node-task-handler-dev-taskHandler",
+        "ApproximateFirstReceiveTimestamp": "1609085199112"
+      },
+      "messageAttributes": {
+        "TargetId": {
+          "stringValue": "target-2",
+          "stringListValues": [],
+          "binaryListValues": [],
+          "dataType": "String"
+        },
+        "TestInvoke": {
+          "stringValue": "true",
+          "dataType": "String"
+        }
+      },
+      "md5OfBody": "99914b932bd37a50b983c5e7c90ae93b",
+      "md5OfMessageAttributes": "2767cfe04a60c57936e993ad0003ea69",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:eu-west-1:770248134387:TargetTasksQueue",
+      "awsRegion": "eu-west-1"
+    }
+  ]
+}

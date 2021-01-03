@@ -1,0 +1,7 @@
+{
+  "active": false,
+  "config": "{\"url\": \"https://dr.dk\"}",
+  "delay": 15,
+  "id": "target-1",
+  "targetType": "httpPing"
+}

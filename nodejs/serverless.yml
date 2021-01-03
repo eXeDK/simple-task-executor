@@ -1,0 +1,93 @@
+service: ste-nodejs
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+  stage: dev
+  region: eu-west-1
+
+  environment:
+    QUEUE_URL:
+      Ref: TargetTasksQueue
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource:
+        Fn::GetAtt:
+          - TargetTasksQueue
+          - Arn
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        - Fn::GetAtt:
+            - TargetsDynamoDbTable
+            - Arn
+        - Fn::GetAtt:
+            - TargetTaskResultsDynamoDbTable
+            - Arn
+
+resources:
+  Resources:
+    TargetTasksQueue: # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: TargetTasksQueue
+        VisibilityTimeout: 1000 # Seconds. Max execution time for Lambda is 900 seconds. https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html
+        KmsMasterKeyId: alias/aws/sqs
+        # Consider a RedrivePolicy for dead letter queues
+    TargetsDynamoDbTable: # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Targets
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification:
+          SSEEnabled: True
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+    TargetTaskResultsDynamoDbTable: # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TargetTaskResults
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification:
+          SSEEnabled: True
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: targetId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: targetId
+            KeyType: RANGE
+
+functions:
+  targetCreator:
+    handler: targetCreator.main
+    memorySize: 128
+    timeout: 30
+    description: Creates new targets and publishes the first event
+
+  taskHandler:
+    handler: taskHandler.main
+    memorySize: 128
+    timeout: 900
+    description: Handles target tasks and creates new tasks on the queue
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - TargetTasksQueue
+              - Arn
